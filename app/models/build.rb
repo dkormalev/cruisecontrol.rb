@@ -6,7 +6,7 @@ class Build
   class ConfigError < StandardError; end
 
   attr_reader :project, :label
-  IGNORE_ARTIFACTS = /^(\..*|build_status\..+|build.log|changeset.log|cruise_config.rb|plugin_errors.log)$/
+  IGNORE_ARTIFACTS = /^(\..*|build_status\..+|build.log|changeset.log|cruise_config.rb|plugin_errors.log|errors.log)$/
 
   def initialize(project, label, initialize_artifacts_directory=false)
     @project, @label = project, label.to_s
@@ -121,6 +121,10 @@ EOF
     @plugin_errors ||= contents_for_display(artifact('plugin_errors.log'))
   end
 
+  def build_errors
+    @build_errors ||= contents_for_display(artifact('errors.log'))
+  end
+  
   def time
     build_status.timestamp
   end

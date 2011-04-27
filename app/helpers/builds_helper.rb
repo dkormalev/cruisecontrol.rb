@@ -15,8 +15,12 @@ module BuildsHelper
     strip_ansi_colors(highlight_test_count(link_to_code(h(log))))
   end
   
+  def format_errors_log(log)
+    strip_ansi_colors(link_to_code(h(log)))
+  end
+  
   def format_changeset_log_pretty(log)
-      link_changeset_to_code(link_to_emails(link_to_repository(h(log.strip))))
+    link_changeset_to_code(link_to_emails(link_to_repository(h(log.strip))))
   end
   
   def link_to_repository(log)
@@ -53,7 +57,7 @@ module BuildsHelper
     return log if Configuration.disable_code_browsing
     @work_path ||= File.expand_path(@project.path + '/work')
     
-    log.gsub(/(\#\{RAILS_ROOT\}\/)?([\w\.-]*\/[ \w\/\.-]+)\:(\d+)/) do |match|
+    log.gsub(/(\#\{RAILS_ROOT\}\/)?([\w\.-]*\/[ \w\/\.-]+)\:(\d+)(:\d+)?/) do |match|
       line = $3
       truncated_path = $2.gsub(/^(\.\.(\/)?)*/, "")
       path = File.expand_path(truncated_path, @work_path)
