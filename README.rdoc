@@ -25,13 +25,13 @@ This should start cruise on port 3333.
 This fork is mostly oriented on C++ projects from git.
 I didn't test it with other VCS.
 One more build artifact added - errors.log. It will be shown in build page (near test failures) and in failed build. I'm using it for saving stderr for easier reading warnings and errors. Example how to do it without removing stderr from full build log using bash:
-rm -f build_error.lock
-( ( ( make -j3 || touch build_error.lock ) 3>&2 2>&1 1>&3 | tee errors.log ) 3>&2 2>&1 1>&3 ) >&1
-if [ -e build_error.lock ]
-then
-    rm -f build_error.lock
-    return 1
-fi
+  rm -f build_error.lock
+  ( ( ( make -j3 || touch build_error.lock ) 3>&2 2>&1 1>&3 | tee errors.log ) 3>&2 2>&1 1>&3 ) >&1
+  if [ -e build_error.lock ]
+  then
+      rm -f build_error.lock
+      return 1
+  fi
 
 
 === License:
