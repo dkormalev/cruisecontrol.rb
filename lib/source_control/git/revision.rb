@@ -16,7 +16,7 @@ module SourceControl
       end
 
       def to_s
-        description = "Revision ...#{number} committed by #{author}"
+        description = "Revision #{number} committed by #{author}"
         description << " on #{time.strftime('%Y-%m-%d %H:%M:%S')}" if time
         description << "\n\n    #{message.split("\n").join("\n    ")}" if message
         description << "\n\n #{changeset.join("\n ")}" if changeset

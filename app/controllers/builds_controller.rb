@@ -1,9 +1,38 @@
 class BuildsController < ApplicationController
   caches_page :drop_down
+#   caches_action :show, :layout => false, :cache_path => 
+#   lambda { |c|
+#     if c.params[:build]
+#       c.request.url 
+#     else
+#       project = Project.find(c.params[:project])
+#       build = project.last_build
+#       if build.nil?
+#         c.request.url
+#       else
+#         "#{c.request.url}/#{build.label}"
+#       end
+#     end
+#   }, :if =>
+#   lambda { |c|
+#     project = Project.find(c.params[:project])
+#     if !c.params[:build]
+#       build = project.last_build
+#       if build.nil?
+#         false
+#       else
+#         !build.incomplete?
+#       end
+#     else
+#       build = project.find_build(c.params[:build])
+#       !build.incomplete?
+#     end
+#   }
+      
   
   def show
     render :text => 'Project not specified', :status => 404 and return unless params[:project]
-    @project = Project.find(params[:project])
+    @project = Project.find(params[:project], true)
     render :text => "Project #{params[:project].inspect} not found", :status => 404 and return unless @project
 
     if params[:build]

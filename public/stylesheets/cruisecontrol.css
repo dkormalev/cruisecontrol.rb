@@ -250,6 +250,16 @@ a.never_built, a.never_built:visited {
   font-weight: bold;
 }
 
+.build-errors {
+    color: #C00;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.build-section {
+    font-weight: bold;
+}
+
 .label {
   font-weight: bold;
   text-align: right;
