@@ -1,6 +1,13 @@
 <% if Configuration.dashboard_url -%>
 <%= @message %>
+See <%= "#{@build.url}" %> for details.
 
+<% unless @build.build_errors.empty? -%>
+BUILD ERRORS AND WARNINGS
+-----------------------
+<%= @build.build_errors %>
+
+<% end -%>
 CHANGES
 -------
 <%= @build.changeset %>
@@ -11,7 +18,6 @@ TEST FAILURES AND ERRORS
 <%= @failures_and_errors %>
 
 <% end -%>
-See <%= "#{@build.url}" %> for details.
 <% else -%>
 <%= @message %>
 

@@ -23,6 +23,15 @@
     </div>
   <% end %>
 
+  <% build_errors = format_errors_log(@build.build_errors) %>
+  <% if build_errors %>
+    <div class="<%= @build.failed? ? 'section_open' : 'section_closed' %>">
+      <div class="section_header" onclick="toggle_section(this.parentNode)">Build Errors and Warnings</div>
+      
+      <div class="section_content"><div class="logfile"><%= build_errors %></div><div><%= link_to "See unformatted errors log&hellip;", build_artifact_path(:project => @project.name, :build => @build.label, :path => 'errors.log') %></div></div>
+    </div>
+  <% end %>
+
   <% plugin_errors = @build.plugin_errors %>
   <% unless plugin_errors.empty? %>
     <div class="section_open">
