@@ -38,19 +38,25 @@ class EmailNotifier < BuilderPlugin
   def build_finished(build)
     return if @emails.empty? or not build.failed?
     email :deliver_build_report, build, "#{build.project.name} build #{build.abbreviated_label} failed",
-          "The build failed."
+          "Build #{build.abbreviated_label} of #{build.project.name} project failed."
   end
 
   def build_fixed(build, previous_build)
     return if @emails.empty?
     email :deliver_build_report, build, "#{build.project.name} build #{build.abbreviated_label} fixed",
-          "The build has been fixed."
+          "Build of project #{build.project.name} was fixed in #{build.abbreviated_label}."
   end
   
   private
   
   def email(template, build, *args)
-    BuildMailer.send(template, build, @emails, from, *args)
+    emails_list = @emails
+    if build.failed?
+      build.changeset.scan(/<([A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum))>/i) do |email|
+        emails_list += email
+      end
+    end
+    BuildMailer.send(template, build, emails_list, from, *args)
     CruiseControl::Log.event("Sent e-mail to #{@emails.size == 1 ? "1 person" : "#{@emails.size} people"}", :debug)
   rescue
     settings = ActionMailer::Base.smtp_settings.map { |k,v| "  #{k.inspect} = #{v.inspect}" }.join("\n")
