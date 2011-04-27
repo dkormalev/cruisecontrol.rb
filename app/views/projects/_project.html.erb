@@ -12,7 +12,7 @@
 
     <div class="recent_builds">
 
-      <% recent_builds = project.last_five_builds %>
+      <% recent_builds = project.last_builds(10) %>
 
       <span class="lead">
         <%= recent_builds.first ? 'build ' : '<span class="build_status">Never built</span>' %>
@@ -23,11 +23,7 @@
       <% unless recent_builds.empty? %>
         <div class="builds_list">
           <% recent_builds.each do |build| %>
-            <% if build == recent_builds.first %>
-                <div class="build_summary"><%= link_to_build_with_elapsed_time(project, build) %></div>
-            <% else %>
-                <div class="build_summary"><%= link_to_build(project, build) %></div>
-            <% end %>
+            <div class="build_summary"><%= link_to_build_with_elapsed_time(project, build) %></div>
           <% end %>
         </div>
       <% end %>

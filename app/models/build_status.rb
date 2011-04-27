@@ -70,7 +70,7 @@ class BuildStatus
   end
   
   def match_elapsed_time(file_name)
-    match =  /^build-[^\.]+\.in(\d+)s$/.match(file_name)
+    match =  /^build-[^-]+-[^\.]+\.in(\d+)s$/.match(file_name)
     raise 'Could not parse elapsed time' if !match or !$1
     $1.to_i
   end

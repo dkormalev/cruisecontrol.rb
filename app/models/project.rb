@@ -2,7 +2,7 @@
 # each time a build is triggered and yielded back to be configured by cruise_config.rb.
 class Project
   attr_reader :name, :plugins, :build_command, :rake_task, :config_tracker, :path, :settings, :config_file_content, :error_message
-  attr_accessor :source_control, :scheduler
+  attr_accessor :source_control, :scheduler, :tracker_web_url, :repository_url_addition
   
   class << self
     attr_accessor_with_default :plugin_names, []
@@ -46,15 +46,15 @@ class Project
       yield current_project
     end
     
-    def find(project_name)
+    def find(project_name, load_config = false)
       # TODO: sanitize project_name to prevent a query injection attack here
       path = File.join(CRUISE_DATA_ROOT, 'projects', project_name)
       return nil unless File.directory?(path)
-      load_project(path)
+      load_project(path, load_config)
     end
 
-    def load_project(dir)
-      returning read(dir, load_config = false) do |project|
+    def load_project(dir, load_config = false)
+      returning read(dir, load_config) do |project|
         project.path = dir
       end
     end
@@ -237,7 +237,17 @@ class Project
   end
   
   def last_complete_build
-    builds.reverse.find { |build| !build.incomplete? }
+    last_complete_builds(1)[0]
+  end
+  
+  def last_complete_builds(n)
+   result_builds = Array.new
+   i = builds.count - 1
+   while result_builds.count < n && i >= 0 do
+     result_builds << builds[i] unless builds[i].incomplete?
+     i -= 1
+   end
+   result_builds
   end
 
   def find_build(label)

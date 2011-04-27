@@ -9,7 +9,7 @@ class Configuration
   @disable_build_now = false
   @serialize_builds = false
   @serialized_build_timeout = 3.hour
-  @git_load_new_changesets_timeout = 5.minutes
+  @git_load_new_changesets_timeout = 5*60
 
   class << self
     # published configuration options (mentioned in config/site_config.rb.example)
