@@ -61,7 +61,6 @@ module BuildsHelper
       line = $3
       truncated_path = $2.gsub(/^(\.\.(\/)?)*/, "")
       path = File.expand_path(truncated_path, @work_path)
-      line = $3
       if path.index(@work_path) == 0
         path = path[@work_path.size..-1]
         link_to match, "/projects/code/#{h @project.name}#{path}?line=#{line}##{line}"
