@@ -42,11 +42,17 @@ a:hover {
   font-size: 0.7em;
   color: #999;
   text-align: right;
-  padding: 2em 1em 0 0;
+  padding: 0.2em 1em 0 0;
   clear: both;
 }
 
 .footer .version {
+  padding-right: 1.5em;
+}
+
+.footer .main_rss {
+  font-size: 1.5em; 
+  padding-bottom: 1em;
   padding-right: 1.5em;
 }
 

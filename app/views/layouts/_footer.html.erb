@@ -1,4 +1,7 @@
 <div class="footer">
+  <div class="main_rss">
+    Main RSS: <%= link_to image_tag('rss_light.gif'), :controller => 'projects', :action => 'index', :format => 'rss' %>
+  </div>
   <div class="tw_logo">
     <%= link_to image_tag("tw_open_source.png"), "http://www.thoughtworks.com/" %>
   </div>
