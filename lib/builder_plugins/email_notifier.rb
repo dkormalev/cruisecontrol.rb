@@ -56,6 +56,7 @@ class EmailNotifier < BuilderPlugin
         emails_list += email
       end
     end
+    emails_list.uniq!
     BuildMailer.send(template, build, emails_list, from, *args)
     CruiseControl::Log.event("Sent e-mail to #{@emails.size == 1 ? "1 person" : "#{@emails.size} people"}", :debug)
   rescue
