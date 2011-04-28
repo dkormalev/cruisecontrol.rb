@@ -1,5 +1,6 @@
 <h3><%= File.join(params[:path]) %><span class="help">(latest version)</span></h3>
-
+<div style="font-weight: bold"><%= link_to 'Parent directory', "/projects/code/#{h @project.name}/#{@parent_path}" %></div>
+<br />
 <div class="code">
 <% line_number = 0 %>
 <% h(@content).gsub("  ", " &nbsp;").split("\n").each do |line| %>

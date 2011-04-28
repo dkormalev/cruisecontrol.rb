@@ -47,13 +47,47 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     render :text => "Project #{params[:id].inspect} not found", :status => 404 and return unless @project 
 
-    path = File.join(@project.path, 'work', params[:path])
+    work_path = File.join(@project.path, 'work')
+    params[:path].reject! do |elem|
+      elem.empty?
+    end
+    path = File.join(work_path, params[:path])
+    if File.expand_path(path).index(File.expand_path(work_path)) != 0
+      render :text => 'This file is not part of project', :status => 500 
+      return
+    end
     @line = params[:line].to_i if params[:line]
     
     if File.directory?(path)
-      render :text => 'Viewing of source directories is not supported yet', :status => 500 
+      dir_entries = Dir.entries(path)
+      dir_entries -= ['.', '..', '.git', '.svn']
+      @curr_path = File.join(params[:path])
+      @curr_path += '/' unless @curr_path.empty?
+      @parent_path = File.dirname @curr_path
+      @parent_path = '' if @parent_path == '.'
+      parent_path_full = File.dirname path
+      @go_to_parent_allowed = true
+      if (@parent_path == '.' and @curr_path.empty?) or 
+          parent_path_full.index(File.expand_path(work_path)) != 0
+        @go_to_parent_allowed = false
+      end
+      @dirs = Array.new
+      @files = Array.new
+      dir_entries.each do |entry|
+        if File.directory?(File.join(path, entry))
+          @dirs << entry
+        else
+          @files << entry
+        end
+      end
+      @dirs.sort!
+      @files.sort!
+      render :action => 'code_dir'
+#      render :text => 'Viewing of source directories is not supported yet', :status => 500 
     elsif File.file?(path)
       @content = File.read(path)
+      @parent_path = File.dirname(File.join(params[:path]))
+      @parent_path = '' if @parent_path == '.'
     else
       render_not_found
     end
