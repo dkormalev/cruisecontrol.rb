@@ -1,0 +1,18 @@
+<h3><%= File.join(params[:path]) %><span class="help">(latest version)</span></h3>
+<% if @go_to_parent_allowed -%>
+  <div style="font-weight: bold"><%= link_to 'Parent directory', "/projects/code/#{h @project.name}/#{@parent_path}" %></div>
+  <br />
+<% end -%>
+<% if !@dirs.empty? -%>
+  <b>Directories:</b>
+  <% @dirs.each do |entry| -%>
+    <div><%= link_to entry, "/projects/code/#{h @project.name}/#{@curr_path}#{entry}" %></div>
+  <% end -%>
+  <br />
+<% end -%>
+<% if !@files.empty? -%>
+  <b>Files:</b>
+  <% @files.each do |entry| -%>
+    <div><%= link_to entry, "/projects/code/#{h @project.name}/#{@curr_path}#{entry}" %></div>
+  <% end -%>
+<% end -%>
