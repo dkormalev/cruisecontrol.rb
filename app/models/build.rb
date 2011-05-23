@@ -11,6 +11,9 @@ class Build
   def initialize(project, label, initialize_artifacts_directory=false)
     @project, @label = project, label.to_s
     @start = Time.now
+    @last_commiter_name = ''
+    @last_commiter_email = ''
+    @last_commit_time = ''
     if initialize_artifacts_directory
       unless File.exist? artifacts_directory
         FileUtils.mkdir_p artifacts_directory
@@ -123,6 +126,33 @@ EOF
 
   def build_errors
     @build_errors ||= contents_for_display(artifact('errors.log'))
+  end
+  
+  def last_commiter_name
+    return @last_commiter_name unless @last_commiter_name.empty?
+    parse_last_commit
+    return @last_commiter_name
+  end
+
+  def last_commiter_email
+    return @last_commiter_email unless @last_commiter_email.empty?
+    parse_last_commit
+    return @last_commiter_email
+  end
+  
+  def last_commit_time
+    return @last_commit_time unless @last_commit_time.empty?
+    parse_last_commit
+    return @last_commit_time
+  end
+  
+  def parse_last_commit
+    build_changeset = changeset
+    if m = changeset.match(/Revision .* committed by (.*) <(.*)> on (.*)/)
+      @last_commiter_name = m[1]
+      @last_commiter_email = m[2]
+      @last_commit_time = m[3]
+    end
   end
   
   def time

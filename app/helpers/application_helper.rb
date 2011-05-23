@@ -46,6 +46,24 @@ module ApplicationHelper
     build_link(build_to_text(build), project, build)
   end
     
+  def row_with_links_to_build(project, build)
+    result = "<tr class='#{build.status}'>"
+    result += "<td nowrap>#{build_link(build.abbreviated_label, project, build)}</td>"
+    result += "<td nowrap><a href='mailto:#{build.last_commiter_email}'>#{build.last_commiter_name}</a></td>"
+    result += "<td nowrap>#{build.last_commit_time}</td>"
+    result += "<td nowrap>#{format_time(build.time, :human)}</td>"
+    result += "<td nowrap>#{elapsed_time(build)}</td>"
+    if build.failed?
+      result += "<td>FAILED</td>"
+    elsif build.incomplete?
+      result += "<td>incomplete</td>"
+    else
+      result += "<td>success</td>"
+    end
+    result += "</tr>"
+    result
+  end
+  
   def display_builder_state(state)
     case state
     when 'building', 'builder_down', 'build_requested', 'source_control_error', 'queued', 'timed_out', 'error'

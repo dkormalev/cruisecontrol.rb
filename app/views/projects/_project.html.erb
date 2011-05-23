@@ -22,9 +22,21 @@
 
       <% unless recent_builds.empty? %>
         <div class="builds_list">
+          <table class="builds_table">
+          <tr class="table_header">
+            <td>Commit</td>
+            <td>Commiter</td>
+            <td>Commit<br />Time</td>
+            <td>Build<br />Time</td>
+            <td>Build<br />Duration</td>
+            <td>Build<br />Status</td>
+          </tr>
           <% recent_builds.each do |build| %>
-            <div class="build_summary"><%= link_to_build_with_elapsed_time(project, build) %></div>
+            <%= row_with_links_to_build(project, build) %>
           <% end %>
+          </table>
+          
+          
         </div>
       <% end %>
     </div>

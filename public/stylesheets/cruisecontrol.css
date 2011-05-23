@@ -99,12 +99,12 @@ a:hover {
 a.success, a.success:visited {
 }
 
-a.failed, a.failed:visited {
+tr.failed, tr.failed a, tr.failed a:visited, a.failed, a.failed:visited {
   font-weight: bold;
   color: #C00;
 }
 
-a.incomplete, a.incomplete:visited {
+tr.incomplete, tr.incomplete a, tr.incomplete a:visited, a.incomplete, a.incomplete:visited {
   font-weight: bold;
   font-style: italic;
   color: #888;
@@ -116,6 +116,19 @@ a.never_built, a.never_built:visited {
   color: #888;
 }
 
+.builds_list table.builds_table {
+  border-collapse: collapse;
+}
+.builds_list table.builds_table td {
+  border: 1px #444444 solid;
+  padding: 0px 5px;
+}
+
+.builds_list table.builds_table tr.table_header td {
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+}
 /* Project dashboard */
 
 .project {
@@ -153,7 +166,7 @@ a.never_built, a.never_built:visited {
 }
 
 .project table.project_pane td.project_summary {
-  width: 24%;
+  width: 44%;
 }
 
 .project table.project_pane td.builder_control {
@@ -161,7 +174,7 @@ a.never_built, a.never_built:visited {
 }
 
 .project table.project_pane td.build_details {
-  width: 64%;
+  width: 44%;
 }
 
 .project .project_summary .buttons {
@@ -293,7 +306,7 @@ a.never_built, a.never_built:visited {
 }
 
 #build_details {
-  margin-left: 17em;
+  margin-left: 16em;
   padding-right: 1.5em;
 }
 
@@ -319,7 +332,7 @@ a.never_built, a.never_built:visited {
 #build_details .section_closed .section_content { display: none; }
 
 #builds_list {
-  width: 16em;
+  width: 15em;
   float: left;
   margin: 0.2em 1em 1em 0;
 }

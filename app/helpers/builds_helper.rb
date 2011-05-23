@@ -115,8 +115,8 @@ module BuildsHelper
   def highlight_test_count(log)
     log.gsub(/\d+ tests, \d+ assertions, \d+ failures, \d+ errors/, '<div class="test-results">\0</div>').
         gsub(/\d+ examples, \d+ failures/, '<div class="test-results">\0</div>').
-        gsub(/^.*(Warning:|Error:|Permission denied).*$/i, '<span class="build-errors">\0</span>').
-        gsub(/^-{5,}.*-{5,}$/i, '<span class="build-section">\0</span>')        
+        gsub(/^\s*(.*(Warning:|Error:|Permission denied).*)\s*$/i, '<span class="build-errors">\1</span>').
+        gsub(/^\s*(--{5,}.*-{5,})\s*$/i, '<span class="build-section">\1</span>')        
   end
 
   def strip_ansi_colors(log)
