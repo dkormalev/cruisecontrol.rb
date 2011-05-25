@@ -58,7 +58,7 @@ module ApplicationHelper
     elsif build.incomplete?
       result += "<td>incomplete</td>"
     else
-      result += "<td>success</td>"
+      result += "<td>#{build.version}</td>"
     end
     result += "</tr>"
     result
